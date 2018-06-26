@@ -1,0 +1,26 @@
+<div class="table-responsive">
+	<table class="table table-hover">
+		<thead>
+		<tr>
+  			<th>Name</th>
+  		  <th>Updated</th>
+		</tr>
+  		</thead>
+	  	<tbody>
+		<% @items.each do |item| %>
+		<tr>
+			<% if item[:link] == "is_dir" %>
+				<td><span class="<%= item[:icon] %>"></span><%= item[:name] %></td>
+			<% else %>
+				<td>
+					<span class="<%= item[:icon] %>"></span>
+					<a href='<%= item[:link] %>' target='_new'><%= item[:name] %></a>
+				</td>
+			<% end %>
+			<!-- <td><%= number_to_human_size(item[:size].to_i, precision: 2) %></td>-->
+			<td><%= item[:since].to_s%></td>
+		</tr>
+		<% end%>
+		</tbody>
+	</table>
+</div>

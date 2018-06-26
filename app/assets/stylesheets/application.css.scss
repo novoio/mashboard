@@ -1,0 +1,435 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+
+@import 'flat-ui/variables';
+@import "bootstrap-sprockets";
+@import 'bootstrap';
+@import 'flat-ui';
+
+
+.modal-content { border: 0; }
+.ui-icon-gripsmall-diagonal-se { background-image: url("../images/icon-resize.png") !important; background-position: 0 0 !important; }
+.ui-resizable-se { right: 3px !important; bottom: 3px !important; }
+.widget { overflow: hidden !important; height: 500px; }
+.widget h3 { cursor: move; }
+
+.btn-primary a { color: #fff; }
+
+body { padding: 20px; background-image: url(../../images/brushed_alu.png); }
+#mashboard-logo { margin: 16px 0 0 16px; }
+.clear { clear: both; }
+
+.light-blue { color: #2a6496;  }
+.dark-blue { color: #07547b; }
+
+.button-container { padding: 20px; }
+
+.navbar-default { background-color: white; -webkit-box-shadow: 0 0 8px 0 rgba(0,0,0,.1);
+box-shadow: 0 0 8px 0 rgba(0,0,0,.1); }
+.search { margin: 0 auto; float: none; width: 300px; display: block;  }
+.input-group { border: 2px solid #eee; -webkit-border-radius: 20px; border-radius: 20px; }
+.search .input-group .form-control:first-child, .search .input-group-btn:last-child > .btn { -webkit-border-radius: 20px; border-radius: 20px; }
+.form-control { border: 0; color: #777; }
+
+.nav > li { line-height: 14px; }
+.nav > li a { color: #95a5a6; font-size: 16px; }
+.nav li span { float: left; margin-right: 10px; }
+.nav-pills > li > a { color: white; background-color: #2a6496; }
+.nav-pills > li > a:hover, .nav-pills > li > a:focus { background-color: #07547b;  }
+
+
+.widget { -webkit-border-radius: 8px;
+border-radius: 8px; background-color: #ecf0f1; background: white; -webkit-box-shadow: 0 0 8px 0 rgba(0,0,0,.1);
+box-shadow: 0 0 8px 0 rgba(0,0,0,.1); }
+.widget .widget-header { background-color: #3b97cc; padding: 16px;}
+.widget .widget-header .widget-title { margin: 0; font-size: 16px; font-weight: normal; text-transform: uppercase; color:#fff; line-height: 1;}
+.widget .table-responsive { border: 0 !important; }
+.widget .widget-item-list { 
+  font-size: 14px; 
+  .widget-item-list-header { border-bottom: 2px solid #efefef; color: #ccc; padding: 5px 0; }
+
+  .widget-item-list-body {
+    height: 400px; 
+    overflow: auto;
+
+    &.email a { color: #333; }
+
+    .widget-item-list-item { 
+      padding: 8px 0; 
+      border-bottom: 1px solid #efefef; 
+
+      .time { color: #ccc; }
+      .icon.gdrive { margin-top: 5px;}
+      .icon.unread-yes { margin-top: 3px;}
+    }
+  }
+}
+
+.widget-container { margin-bottom: 30px; }
+.widget-content { margin-bottom: 10px; }
+.widget-content ul { margin: 0; padding: 0; list-style-type: none; }
+.widget-content li { margin: 0; padding: 0 0 12px 0; font-size: 14px; line-height: 14px; font-weight: lighter; }
+.line2 { margin-top: 2px; border-bottom: 0px solid #eef0f0; padding-bottom: 0px;  }
+.widget-content span { float: left; }
+.widget table th { font-size: 13px; }
+.widget table td { font-size: 13px; font-weight: normal; }
+.widget table tbody {display: block; height: 400px; overflow: auto; width: 100%;}
+.widget table tbody tr {width: 100%;}
+
+.email-widget .widget-content li.unread { font-weight: normal;  }
+.email-widget h3 { margin-bottom: 0; }
+.email-widget .widget-content li div { position: relative; }
+.email-widget .timestamp { position: absolute; right: 0; }
+.email-widget .widget-content li { margin: 0; padding: 12px 0 0 0 !important; border-bottom: 2px solid #eef0f0; }
+
+
+.icon { float: left; margin-right: 4px; display: block; width: 16px; height: 16px; background-image: url(/images/sprites.png); background-repeat: no-repeat; }
+.unread-yes { background-position: 0 -17px; }
+.no { background: none; }
+.attachment-yes { background-position: -17px -17px; }
+.timestamp { font-weight: normal; }
+.source { margin-right: 6px; }
+.message { font-weight: lighter; }
+.mashboard-selected { background-position: 0 -65px; }
+.mashboard { background-position: -32px -65px; }
+.dropbox { background-position: -33px 0px; }
+.gdrive { background-position: -49px 0px; }
+.apple { background-position: -65px 0; margin-right: 2px; }
+
+.contact-container { margin-top: 2px; border-bottom: 2px solid #eef0f0; padding-bottom: 12px; }
+.user-icon { float: left; margin-right: 10px; }
+.contact-name { font-size: 15px; margin: 0 0 3px 0; font-weight: normal; }
+.email { font-size: 12px; color: #6e6e6e; }
+
+.sender { margin-right: 10px; }
+
+/* login */
+.login-logo { margin-right: -30px; }
+.login-button { display: block; margin: 50px auto 0 auto; font-size: 18px; padding: 15px 40px; }
+
+/* modals */
+.modal-backdrop {background: rgba(20,121,173,0.5);}
+.btn-primary { background-color: #428bca; }
+.btn-primary:hover,
+.btn-primary.hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  color: #ffffff;
+  background-color: #2776BA !important;
+  border-color: #2776BA;
+}
+
+.nav-sidebar > .active > a:hover { background-color: #428bca; }
+
+.btn-edit, .btn-edit:hover, .btn-edit:active, .btn-edit:focus { 
+  float: right;
+  margin-top: -5px;
+  color: #fff !important;
+  background: #2073a3;
+  background-image: url(../../images/icon-gear.png);
+  background-repeat: no-repeat;
+  display: block;
+  height: 26px;
+  width: 26px;
+  padding: 0;
+  background-position: center center;
+}
+
+.btn-edit-nav, .btn-edit-nav:hover {
+  float: right;
+margin-top: -50px;
+margin-right: 14px;
+background-color: white;
+z-index: 999;
+position: absolute;
+right: 0px;
+bottom: 12px;
+color: #888;
+padding: 4px 10px;
+}
+
+.widget-content li:hover { background-color: #f9fafb; }
+
+
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+}
+
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eef0f0;
+  margin-top: 14px; font-size: 22px;
+  font-size: 20px; text-transform: uppercase;
+}
+
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 53px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #fff;
+    -webkit-box-shadow: 0 0 8px 0 rgba(0,0,0,.1);
+box-shadow: 0 0 8px 0 rgba(0,0,0,.1);
+padding-top: 0;
+  }
+
+
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.nav-sidebar > li > a { border-bottom: 2px solid #eef0f0; padding: 20px; }
+.nav-sidebar > .active > a {
+  color: #fff;
+  background-color: #428bca;
+  border: 0;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 40px 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+
+.btn-edit-nav, .btn-edit-nav:hover { opacity: .5; padding: 6px 12px; font-size: 11px; text-transform: uppercase; background-color: #356fa2; color: white; }
+.btn-edit-nav:hover { opacity: 1.0; animation: 1s; }
+#sign_out {
+  FONT-SIZE: 10PX;
+color: #555;
+font-weight: bold;
+vertical-align: middle; }
+
+.tab-content { background: white; border: 1px solid #ddd; border-top:0; padding: 15px; border-radius: 0 0 4px 4px; }
+
+.reset { z-index: 1030; position: absolute; display: block; bottom: 20px; right: 20px; width: 34px; height: 31px; background-image: url('/images/icon-reset.png'); background-repeat: no-repeat; }
+.modal small { text-transform: uppercase; font-size: 13px; }
+.list-group-item { font-size: 16px; color: #1a242f;  }
+.list-group-item small { text-transform: lowercase; display: block; color: #34495e; margin-top: -8px; }
+.modal .form-control { border: 2px solid #bdc3c7; }
+.img-16 { max-width: 16px; max-height: 16px; }
+.img-32 { max-width: 32px; max-height: 32px; }
+.modal-content { background-color: #f9f9f9; }
+.modal-title { text-transform: uppercase; font-size:18px; }
+.modal-body { padding: 20px 24px 30px; }
+.text-light { font-weight: 100; }
+.img-thumbnail { border: 0; background: transparent;  }
+#source-list .list-group { margin-bottom: 10px; }
+.list-group .list-group-item { background-color: #f9fafb; border: 2px solid #dddddd; -webkit-border-radius: 8px;
+border-radius: 8px; margin-bottom: 10px; }
+.list-group p { margin: -4px 0 0 0; }
+.list-group div.img-container { height: 40px; float: left; margin-right: 10px; padding-top: 5px; }
+.list-group-item .fui-cross:before { content: ""; }
+.list-group-item .fui-cross { margin-top: 10px; }
+#source-list { margin-top: 20px; }
+.add { -webkit-border-radius: 8px;
+border-radius: 8px; outline: 0; position: relative; background-color: #f9fafb; border: 2px solid #dddddd; padding: 3px 14px 5px 11px; margin: 0 6px 20px 0;  }
+.add:last { margin-bottom: 0; }
+.plus { position: absolute; bottom: 2px; right: 3px; }
+.margin-top { margin-top: 20px; }
+.margin-top-40 { margin-top: 40px; }
+
+#account-dropdown { background-image: url(../../images/icons/carat-account.png); background-repeat: no-repeat; background-position: 95% 54%; position: absolute; bottom: 0; left: 0; padding: 10px; width: 100%; border-top: 2px solid #eef0f0; }
+#account-dropdown img { margin: 4px 10px 0 0; }
+#account-dropdown strong { font-size: 13px; display: block; margin-top: 2px; }
+#account-dropdown small { font-size: 11px; color: #4288cc; display: block; line-height: 12px; }
+
+#top-right { position: absolute; top: 10px; right: 10px;  }
+.white-square { background: white; border: 2px solid #ddd; padding: 8px 10px 6px 12px; }
+.white-square .glyphicon { color: #aaaaaa; font-size: 16px; }
+.modal-header { padding: 10px 15px; }
+.modal-header .close { margin: 0; font-size: 18px; }
+.modal .btn { display: block; }
+.modal .dropdown-toggle { background-color: white; border: 2px solid #ddd; color: #34495e }
+
+.card-filters-container {
+  .filter-modify-btn{
+    display: inline-block;
+    vertical-align: middle;
+    width: 15px;
+    height: 15px;
+    border: 0;
+    background-color: transparent;
+    background-image: url(../../images/icons/icon-pencil.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    margin-top: 10px;
+  }
+  .filter-no-filters{
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: 15px;
+    font-size: 16px;
+    font-style: italic;
+  }
+}
+.card-filters-edit-container {
+  .filter-delete-btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;    
+    border: 0;
+    background-color: transparent;
+    background-image: url(../../images/icons/icon-trash.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+  }  
+}
+
+.btn-custom-back {
+    cursor: pointer;
+    left:5px;/*change the position*/
+    top:0;/*change the position*/   
+    position:absolute;
+    background-repeat:repeat-x;
+    background-color: #eee;/*change this and the background color for the :before element*/
+    /*background-image : -webkit-linear-gradient(
+        bottom,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0) 50%,
+        rgba(255,255,255,0.1) 50%,
+        rgba(255,255,255,0.3) 100%
+        );*/
+    height:30px;
+    padding: 0 10px 0 12px;
+    z-index : 0;
+    border-radius: 4px;
+    -webkit-border-top-left-radius : 10px 15px;
+    -webkit-border-bottom-left-radius : 10px 15px;
+    border: 1px solid rgba(180,180,180,1.0);
+    /*border-bottom: 1px solid rgba(255,255,255,0.3);*/
+    box-shadow :0 -1px 0px rgba(180,180,180,0.2),
+        0 1px 2px rgba(180,180,180,0.8);
+    font-size : 12px;
+    display : block; 
+    text-align:center;
+    color:#333;
+    /*text-shadow : 0px -1px 0px #000;*/
+    line-height : 30px;
+    -webkit-background-size : 30px;
+}
+
+.btn-custom-back:before{
+    position:absolute;
+    top:9.9%;
+    left:-5px;
+    -webkit-background-size : 22px 22px;
+    background-position :-2px -1.5px;
+    background-color: #eee;/*change to the same as the main element*/
+    background-image :  
+        -webkit-gradient(linear, left bottom, right top, 
+            from(rgba(0,0,0,0)), 
+            color-stop(0.5, rgba(0,0,0,0)), 
+            color-stop(0.5, rgba(255,255,255,0.1)), 
+            to(rgba(255,255,255,0.3))); 
+    height : 25px;
+    width: 25px;
+    -webkit-transform : rotate(-45deg) skew(-10deg, -10deg);
+    -webkit-border-top-right-radius : 100px 40px;
+    -webkit-border-top-left-radius : 30px 2px;
+    -webkit-border-bottom-right-radius : 2px 30px;
+    -webkit-border-bottom-left-radius : 40px 100px;
+    z-index : 1;
+    content : ' ';
+    border-left : 1px solid rgba(255,255,255,0.3);
+    box-shadow :  1px 1px 0 rgba(0,0,0,0.3)inset,
+        -1px 1px 1px rgba(0,0,0,0.3)inset;
+    -webkit-mask-image : 
+        -webkit-gradient(linear, left top, right bottom,
+            from(#000000), 
+            color-stop(0.33,#000000), 
+            color-stop(0.5, transparent), 
+            to(transparent));
+}
+
+.filter-save-btn { background-color: #55F; color: white;}
+.filter-edit-btn { background-color: #55F; color: white;}
+.filter-item { margin: 10px; }
+.filter-content { margin: 15px; }
+.edit-filter-header {margin-top: 15px; margin-bottom: 15px;}

@@ -1,0 +1,155 @@
+	<table>
+		<tr>
+			<th>Title</th>
+			<th>Modified by</th>
+			<th>Updated</th>
+		</tr>
+		<% @items.each do |item| %>
+			<tr>
+				<td><a href='<%= item[:link] %>' target='_new'><%= item[:name] %></a></td>
+				<td><%= item[:size] %></td>
+				<td><%= item[:updated]%></td>
+			</tr>
+		<% end%>
+	</table>
+	
+	
+	
+	<%= @items.inspect%>
+	
+	
+	<h3>Add source</h3>
+	<%= form_for :widget, url: widgets_path  do |f| %>
+		<p>
+			<%= f.label :Source %><br>
+		    <%= f.collection_select :source, Source.order(:provider), :id, :provider %><br>
+		</p>
+ 
+		<p>
+			<%= f.submit %>
+		</p>
+	<% end %>
+	
+	before_filter :show_widget
+
+   def show_widget(widget)
+      widget = Widgets.find(params[:id])
+      @current_user ||= Users.find(session[:user_id]) if session[:user_id]
+      @user_sources = Source.where(:user_id => @current_user.id).order(:provider)
+      case widget.widget_type
+      when "files"
+        @result = Array.new
+        widget.sources.each do |source_id|
+          @source = Source.find(source_id)
+          case @source.provider
+          when "google"
+            @result = google_data_pull("https://www.googleapis.com/auth/drive", "drive", @source)
+            @items = combine_files(@items, @result.data['items'], @source)
+          when "dropbox"
+            @items = combine_files(@items, dropbox_data_pull(@source), @source)
+          else
+            #default action, will need error
+          end
+        end
+      when "communication"
+        widget.sources.each do |source_id|
+          @source = Source.find(source_id)
+          case @source.provider
+          when "google"
+            @items = gmail_pull
+          else
+            #default action, will need error
+          end
+        end
+      when "calendar"
+        widget.sources.each do |source_id|
+          @source = Source.find(source_id)
+          case @source.provider
+          when "google"
+            @result = google_data_pull('https://www.googleapis.com/auth/calendar',"calendar")
+            @items = @result.data['items']
+          else
+          end
+        end
+      when"contact"
+        widget.sources.each do |source_id|
+          @source = Source.find(source_id)
+          case @source.provider
+          when "google"
+            @items = google_data_pull('https://www.google.com/m8/feeds',"contact")
+        
+          else
+          end
+        end
+      else
+        #default action, will need error message
+      end
+      return @items
+    end 
+	
+	
+	
+	
+    case @widget.widget_type
+    when "files"
+      @result = Array.new
+      @widget.sources.each do |source_id|
+        @source = Source.find(source_id)
+        case @source.provider
+        when "google"
+          @result = google_data_pull("https://www.googleapis.com/auth/drive", "drive", @source)
+          @items = combine_files(@items, @result.data['items'], @source)
+        when "dropbox"
+          @items = combine_files(@items, dropbox_data_pull(@source), @source)
+        else
+          #default action, will need error
+        end
+      end
+    when "communication"
+      @widget.sources.each do |source_id|
+        @source = Source.find(source_id)
+        case @source.provider
+        when "google"
+          @items = gmail_pull
+        else
+          #default action, will need error
+        end
+      end
+    when "calendar"
+      @widget.sources.each do |source_id|
+        @source = Source.find(source_id)
+        case @source.provider
+        when "google"
+          @result = google_data_pull('https://www.googleapis.com/auth/calendar',"calendar")
+          @items = @result.data['items']
+        else
+        end
+      end
+    when"contact"
+      @widget.sources.each do |source_id|
+        @source = Source.find(source_id)
+        case @source.provider
+        when "google"
+          @items = google_data_pull('https://www.google.com/m8/feeds',"contact")
+          
+        else
+        end
+      end
+    else
+      #default action, will need error message
+    end
+	
+	<h3>Add source</h3>
+	<%= form_tag("/widgets/#{@widget.id}",  method: "put") do %>
+		<p>
+			<%= label_tag :Source %><br>
+		    <%= select_tag :sources, options_from_collection_for_select(@user_sources, :id, :provider) %><br>
+		</p>
+ 
+		<p>
+			<%= submit_tag %>
+		</p>
+	<% end %>
+	
+	<% @user_sources%>
+	

@@ -1,0 +1,19 @@
+<h1>Source List</h1>
+<%= link_to "Add Source", "/sources/new"%>
+<table>
+	<tr>
+		<th>ID</th>
+		<th>Provider</th>
+		<th>User ID</th>
+		<th>Refresh Token</th>
+	</tr>
+	
+	<% @sources.each do |source| %>
+		<tr>
+			<td><%= source.id %></td>
+			<td><a href='sources/<%= source.id %>'><%= source.provider %></a></td>
+			<td><%= source.user_id %></td>
+			<td><%= source.refresh_token %></td>
+		</tr>
+	<% end %>
+</table>

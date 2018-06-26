@@ -1,0 +1,15 @@
+<h1>Create a new Mashboard</h1>
+<p>
+	<%= form_for :board, url: boards_path  do |f| %>
+		<p>
+			<%= f.label :Name %>:
+			<%= f.text_field :name%><br>
+			Widgets:
+			<%= f.collection_check_boxes :widgets, Widgets.order(:name), :id, :name %><br>
+		</p>
+ 
+		<p>
+			<%= f.submit %>
+		</p>
+	<% end %>
+</p>

@@ -1,0 +1,24 @@
+<div class="table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Creator</th>
+				<th>Date</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @items.each do |item| %>
+			<tr>
+				<td><a href='<%= item.htmlLink%>' target="_new"><%= item.summary %></a></td>
+				<td><%= item.creator['displayName']%></td>
+				<% if item.start['dateTime'] != nil  %>
+					<td><%= item.start['dateTime'].to_s(:short) %></td>
+				<%else%>
+					<td><%= Date.parse(item.start['date']).to_s(:short) %></td>
+				<%end%>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>

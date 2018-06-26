@@ -1,0 +1,17 @@
+<h1>Mashboard List</h1>
+<table>
+	<tr>
+		<th>ID</th>
+		<th>Name</th>
+		<th>User ID</th>
+	</tr>
+
+	<% @boards.each do |board| %>
+		<tr>
+			<td><%= board.id %></td>
+			<td><a href='<%= board.id %>'><%= board.name %></a></td>
+			<td><%= board.userid %></td>
+			<td><%= board.widgets %></td>
+		</tr>
+	<% end %>
+</table>

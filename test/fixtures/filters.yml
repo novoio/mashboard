@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filter: MyString
+  widgetid: 1
+  boardid: 1
+
+two:
+  filter: MyString
+  widgetid: 1
+  boardid: 1

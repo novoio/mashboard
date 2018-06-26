@@ -1,0 +1,333 @@
+
+<% @user_sources = Source.where(:user_id => widgets.userid).order(:provider) %>
+
+<div ng-controller="WidgetController" ng-init="init(<%= widgets.id %>, '<%= widgets.widget_type %>')">
+  <div class="modal fade widgets_<%=widgets.id %>-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="false" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+  		<div class="modal-header">
+  		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+  					<span class="sr-only">Close</span></button>
+  		        <h4 class="modal-title" id="myModalLabel"><span class="text-light">Edit</span> <%= widgets.name %></h4>
+  		</div>
+  		<div class="modal-body clearfix">
+        <div class="tabbable">
+              <ul class="nav nav-tabs nav-append-content">
+                <li class="active"><a data-toggle="tab" href="#tab4_<%= widgets.id %>">SETTINGS</a></li>
+                <li class=""><a data-toggle="tab" href="#tab5_<%= widgets.id %>">FILTERS</a></li>
+                <li><a data-toggle="tab" href="#tab6_<%= widgets.id %>">NOTIFICATION RULES</a></li>
+
+              </ul> <!-- /tabs -->
+              <div class="tab-content">
+                <div class="tab-pane active" id="tab4_<%= widgets.id %>">
+  				  <%= form_tag("/widgets/#{widgets.id}",  method: "put") do %>
+  				  		<small><%= label_tag :Source, "Connect source to widget" %></small>
+  				  		<%= select_tag :sources, options_from_collection_for_select(@user_sources, :id, :provider) %><br>
+  				  		<%= submit_tag "Connect", :class=>"btn btn-xs btn-primary pull-left"%><br>
+  				  <% end %>
+  				  <small>Add Source:</small><br>
+  				  <%= link_to "Add Google", "/auth/google_oauth2", id: "sign_in" %><br>
+  				  <%= link_to "Add Dropbox", "/auth/dropbox_oauth2/authorize", id: "sign_in" %><br>
+  				  <small>Remove Source:</small>
+  					<%= form_tag("/widgets/#{widgets.id}",  method: "put") do %>
+  					<table>
+  						<% widgets.sources.each do |source_id| %>
+  							<% @source = Source.find(source_id) %>
+  							<tr>
+  								<td><%= @source.provider.slice(0,1).capitalize + @source.provider.slice(1..-1) %></td>
+  								<td><%= radio_button_tag(:delete_source, @source.id)%></td>
+  							</tr>
+  					<% end %>
+  					</table>
+  					<%= submit_tag "Remove Source", class: "btn btn-xs btn-danger pull-left"%>
+  					<% end %>
+  					<br>
+  					
+                  <!--<div id="widget-name">
+                    <small>Widget Name</small>
+                    <input type="text" placeholder="<%= widgets.name %>" class="form-control input-hg" />
+                  </div>
+
+                  <div id="source-list">
+                    <small>Sources</small>
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <div class="img-container"><img src="../images/icons/icon-gdrive.png" alt="Google Drive" class="img-32 pull-left img-thumbnail" /></div>
+                        <p>Google Drive<small>matthewlarn@gmail.com</small></p>
+                      </li>
+                      <li class="list-group-item">
+                        <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <div class="img-container"><img src="../images/icons/icon-dropbox.png" alt="Dropbox" class="img-32 pull-left img-thumbnail" /></div>
+                        <p>Dropbox<small>matteo@deviantart.com</small></p>
+                      </li>
+                    </ul>
+                    <%= link_to("/auth/google_oauth2", target: "_blank") do %>
+                      <button class="add gdrive"><img src="../images/icons/icon-gdrive.png" alt="Google Drive" class="img-16" /><img src="../images/icons/icon-plus.png" alt="Add" class="plus" /></button>
+                    <% end %>
+                    <%= link_to("/auth/dropbox_oauth2/authorize", target: "_blank") do %>
+                      <button class="add dropbox"><img src="../images/icons/icon-dropbox.png" alt="Dropbox" class="img-16" /><img src="../images/icons/icon-plus.png" alt="Add" class="plus" /></button>
+                    <% end %>
+                  </div>-->
+                  <%= form_tag("/widgets/#{widgets.id}",  method: "put") do %>
+                    <%= hidden_field_tag(:delete, "true") %>
+                    <%= submit_tag "Delete Widget", class: "btn btn-xs btn-danger pull-right"%>
+                  <% end %>
+
+                </div>
+
+                <!-- FILTER TAP START -->
+
+                <div class="tab-pane filter-tab" id="tab5_<%= widgets.id %>" ng-controller="FilterController">
+                  <div class="card-filters-container" ng-show="filter_panel=='add_panel'">
+                    <div class="card-filters-content">
+                      <div ng-show="isFilterLoading">Loading Filters...</div>
+                      <div class="filter-no-filters" ng-show="!filters.length">No filters added yet.</div>
+                      <div class="clearfix filter-item animate-repeat" ng-repeat="item in filters">
+                        <input type="checkbox" class="filter-item-checkbox" ng-checked="item.is_applied" ng-disabled="$parent.widget.busy" ng-click="filterSelect(item)"><span class="filter-content">{{item.filter}}</span>
+                        <button class="pull-right filter-modify-btn" ng-click="onClickModifyFilter($index)"></button>
+                      </div>
+
+                    </div>
+                    <div style="margin:15px 0;">
+                      <!-- <div class="col-sm-6 col-xs-6">
+                      <button type="button" class="btn btn-default btn-block" style="border: 1px dashed #333;border-radius:5px;background-color:#eee;color:#333;" ng-click="onClickApplyFilter()" ng-disabled="!filterApplied || $parent.widget.busy"> APPLY FILTERS </button>
+                      </div> -->
+                      <div class="">
+                        <button type="button" class="btn btn-default btn-block" style="border: 1px dashed #333;border-radius:5px;background-color:#eee;color:#333;" ng-click="onClickAddFilter()"> + ADD FILTER</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card-add-container" ng-show="filter_panel=='save_panel'" ng-class-"{'has-error': errorName }">
+                    <form name="filterAddForm" ng-submit="addFilterSubmit(<%= widgets.id %>)" novalidate>
+                      <%= csrf_meta_tag %>
+                      <div class="text-center edit-filter-header" style="position:relative;">
+                        <div type="button" class="filter-back-btn btn-custom-back" ng-click="onClickBack()" data-widgetid="<%= widgets.id %>">BACK</div>
+                        ADD FILTER
+                      </div>
+                      <div class="form-group">
+                        <input type="hidden" ng-model="formData.widgetid" value="<%= widgets.id %>">
+                        <input type="text" name="filtername" class="form-control" placeholder="Input Filter Name" ng-change="filterNameChange()" ng-model="formData.filtername" required />
+                          <span style="color:red" ng-show="(filterAddForm.filtername.$dirty || filterAddForm.filtername.$error.required) && submitted">Keyword is required.</span>
+                      </div>
+                      <div>
+                        <button type="submit" class="btn btn-primary btn-block" ng-disabled="formData.isSaving">SAVE & APPLY</button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div class="card-filters-edit-container" ng-show="filter_panel=='edit_panel'" ng-class-"{ 'has-error': errorName }">
+                    <div class="text-center edit-filter-header" style="position:relative;">
+                      <div class="filter-back-btn btn-custom-back" ng-click="onClickBack()">Back</div>
+                      Edit Filter
+                      <button class="filter-delete-btn" ng-disabled="formData.isSaving" ng-click="onClickDeleteFilter()"></button>
+                    </div>
+                    <form name="editFilterForm" ng-submit="editFilterSubmit()" novalidate>
+                      <div class="form-group">
+                        <input type="hidden" ng-model="formData.edit_filter">
+                        <input type="hidden" ng-model="formData.selected_index">
+                        <input type="hidden" ng-model="formData.original_filter_name">
+                        <input type="text" name="edit_filtername" id="edit_filtername" class="form-control" placeholder="Input Filter Name" ng-change="editFilterNameChange()" ng-model="formData.edit_filter.filter" required />
+                        <span style="color:red" ng-show="(editFilterForm.edit_filtername.$dirty || editFilterForm.edit_filtername.$error.required) && submitted">Keyword is required.</span>
+                      </div>
+                      <div>
+                        <button type="submit" class="btn btn-primary btn-block" ng-disabled="formData.isSaving">SAVE & APPLY</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- FILTER TAP END -->
+
+                <div class="tab-pane" id="tab6_<%= widgets.id %>">
+                  <small>NOTIFICATION RULES</small>
+                  <p><em>Coming Soon!</em></p>
+                  <!-- <div class="card-sample-container" ng-controller="FilterController">
+                    <div>
+                      <input type="text" ng-model="textFilter">
+                    </div>
+                    <div ng-repeat="item in items">
+                      {{item.name}}
+                    </div>
+                  </div>
+
+                  <div ng-controller="FilterController">
+
+                          <h1>Movies</h1>
+
+                          <div ng-init="movies = [
+                                    {title:'Man on the Moon', genre:'action'},
+                                    {title:'Meet the Robinsons', genre:'family'},
+                                    {title:'Man of the Moon Click', genre:'action'},
+                                    {title:'Sphere', genre:'action'},
+                                 ];">
+                            <input type="checkbox" ng-model="genrefilters.action" />Action
+                            <br />
+                            <input type="checkbox" ng-model="genrefilters.family" />Family
+                            <br />
+                            Name <input type="text" ng-model="genrefilters.name" />
+
+                            <br />
+                            Another Filter<input type="text" ng-model="anoterfiltername" />
+                            <br />{{genrefilters.action}}::{{genrefilters.family}}
+                            <ul>
+                                <li ng-repeat="movie in movies">{{movie.title}}: {{movie.genre}}</li>
+                            </ul>
+                          </div>
+                  </div> -->
+
+                </div>
+              </div> <!-- /tab-content -->
+            </div>
+  		</div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-sm-12 col-md-12 col-lg-4 widget-container">
+     	<div class="widget files">
+        <div class="widget-header">
+    		  <h3 class="widget-title"><%= widgets.name %> 
+          <button class="btn btn-edit" data-toggle="modal" data-target=".widgets_<%=widgets.id %>-sm"></button></h3>
+        </div>
+  		<div class="table-responsive">
+  <% case widgets.widget_type%>
+  <% when "files" %>
+        <div class="widget-item-list">
+          <div class="widget-item-list-header">
+            <div class="clearfix">
+              <div class="col-sm-8">
+                <span class="widget-item-list-header-label">NAME</span>
+              </div>
+              <div class="col-sm-4 text-right">
+                <span class="widget-item-list-header-label" style="padding-right:15px;">UPDATED</span>
+              </div>            
+            </div>
+          </div>
+          <div class="widget-item-list-body" whenScrollEnds="loadMoreRecords(<%= widgets.id %>)">
+            <div ng-repeat="item in widget.items" class="widget-item-list-item">
+              <div class="clearfix">
+                <div ng-show="item.is_dir" class="col-sm-8">
+                  <span class="{{item.icon}}"></span><span class='name'>{{item.name}}</span>
+                </div>
+                <div ng-hide="item.is_dir" class="col-sm-8">
+                  <span class="{{item.icon}}"></span>
+                  <a ng-href='{{item.link}}' target='_new'><span class='name'>{{item.name}}</span></a>
+                </div>
+                <div class="col-sm-4 text-right">
+                  <span class='since time'>{{item.since}}</span>
+                </div>
+              </div>
+            </div>
+            <div ng-show="widget.busy" class="widget-item-list-item text-center">
+              Loading data...
+            </div>
+          </div>
+        </div>
+    <% when "email" %>
+        <div class="widget-item-list">
+          <div class="widget-item-list-header">
+            <div class="clearfix">
+              <div class="col-sm-8">
+                <span class="widget-item-list-header-label">FROM</span>
+              </div>
+              <div class="col-sm-4 text-right">
+                <span class="widget-item-list-header-label" style="padding-right:15px;">DATE</span>
+              </div>
+            </div>
+          </div>
+          <div class="widget-item-list-body email" whenScrollEnds="loadMoreRecords(<%= widgets.id %>)">
+            <div ng-repeat="item in widget.items track by $index" class="widget-item-list-item">
+              <div class="clearfix">
+                <div class="col-sm-8">
+                  <a ng-href="https://mail.google.com/mail/u/0/#inbox/{{item.id}}" target="_new">
+                    <div class="line1">
+                      <span ng-show="item.unread" class="icon unread-yes"></span>
+                      <span class="sender"><strong>{{item.sender}}</strong></span>                      
+                    </div>
+                  </a>  
+                </div>  
+                <div class="col-sm-4 time text-right">
+                  <span class="time">{{item.timestamp}}</span>
+                </div>
+                <div class="col-sm-12">
+                  <a ng-href="https://mail.google.com/mail/u/0/#inbox/{{item.id}}" target="_new">
+                    <div class="line2">
+                      <span ng-show="item.attachment" class="icon attachment-yes"></span>
+                      <span class="icon source gmail"></span>
+                      <span class="subject">{{item.subject}}</span>
+                    </div>
+                  </a>
+                </div>                
+              </div>
+            </div>
+            <div ng-show="widget.busy" class="widget-item-list-item text-center">
+              Loading data...
+            </div>
+          </div>
+        </div>
+    <% when "calendar"%>
+        <div class="widget-item-list">
+          <div class="widget-item-list-body" whenScrollEnds="loadMoreRecords(<%= widgets.id %>)">
+            <div ng-repeat="item in widget.items" class="widget-item-list-item">
+              <div class="clearfix">
+                <div><a ng-href=='{{item.link}}' target="_new">{{item.title}}</a></div>
+              </div>
+            </div>
+            <div ng-show="widget.busy" class="widget-item-list-item text-center">
+              Loading data...
+            </div>
+          </div>
+        </div>
+          	<!-- <table class="table table-hover">
+  					<thead>
+  					<tr>
+  						<th>Title</th>
+  						<th>Creator</th>
+  						<th>Date</th>
+  					</tr>
+  					</thead>
+  					<tbody whenScrollEnds="loadMoreRecords(<%= widgets.id %>)">
+  						<tr ng-repeat="item in widget.items track by $index">
+  							<td><a ng-href=='{{item.link}}' target="_new">{{item.title}}</a></td>
+  							<td>{{item.creator}}</td>
+  							<td>{{item.date}}</td>
+  						</tr>
+  						<tr ng-show='widget.busy'><td>Loading data...</td><td></td><td></td></tr>
+  					</tbody>
+  				</table> -->
+    <% when "notes"%>
+        <table class="table table-hover" style="width:100%;">
+          <thead>
+          <tr>
+            <th>Note</th>
+            <th>Updated</th>
+          </tr>
+          </thead>
+          <tbody whenScrollEnds="loadMoreRecords(<%= widgets.id %>)">
+            <tr ng-repeat="item in widget.items track by $index">
+                <td ng-show="item.is_dir"><span class="{{item.icon}}"></span><span class='name'>{{item.name}}</span></td>
+                <td ng-hide="item.is_dir">
+                  <span class="{{item.icon}}"></span>
+                  <a ng-href=='{{item.link}}' target='_new'><span class='name'>{{item.name}}</span></a>
+                </td>
+              <td><span class='since'>{{item.since}}</span></td>
+            </tr>
+          <tr ng-show='widget.busy'><td>Loading data...</td></tr>
+          </tbody>
+      </table>
+    <% else %>
+    <% end %>
+  		</div>
+  	</div>
+  </div>
+</div>
+<!-- /.widget -->
+
+<script type="text/javascript">
+    // $('form#new_filter_1').on('ajax:success', function(event, data, status, xhr) {
+    //   console.log("here here");
+    // });
+</script>

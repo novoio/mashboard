@@ -1,0 +1,56 @@
+<div class="table-responsive">
+   <table class="table table-hover">
+     <thead>
+	     <tr>
+	         <th>From</th>
+	         <th width="80" align="right">Date</th>
+	     </tr>
+     </thead>
+     <tbody>
+		<% @items.each do |item| %>
+		<tr><td colspan="2">
+        	<table width="100%">
+				<tr>
+					<td>
+                		<a href="https://mail.google.com/mail/u/0/#inbox/<%= item[:id]%>" target="_new">
+							<div class="line1">
+							<% if item[:unread] %>
+								<span class="icon unread-yes"></span>
+							<% else %>
+
+							<% end %>
+							<% if item[:from_name].length > 0 %>
+								<%from_split = item[:from_name][0]['value'].split("<") %>
+								<span class="sender"><%= from_split[0] %></span>
+							<% end %>
+					<% if item[:rec_date].length > 0 %>
+                  	<td align="right" width="100">
+						<span class="timestamp"><%= DateTime.parse(item[:rec_date][0]['value']).to_s(:short)%></span>
+                  	</td>
+					<% end %>
+                  </div>
+                  </td>
+			  	</tr>
+                <tr>
+					<td colspan="2">
+						<div class="line2">
+							<% if item[:attachment] %>
+				            	<span class="icon attachment-yes"></span>
+							<% end %>
+				            <span class="icon source gmail"></span>
+							<% subject_text = item[:subject][0]['value'].to_s %>
+							<span class="subject"><%= subject_text[0..39] %>
+								<% if subject_text.length > 40 %>
+									...
+								<% end %>
+							</span>
+						</div></a>
+					</td>
+				</tr>
+			</table>
+		</td></tr>
+		<% end %>
+
+    </tbody>
+	</table>
+</div>

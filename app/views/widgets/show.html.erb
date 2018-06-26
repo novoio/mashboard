@@ -1,0 +1,114 @@
+
+<% case @widget.widget_type%>
+<% when "files" %>
+        <div class="col-sm-12 col-md-12 col-lg-4 widget-container">
+        <div class="widget files">
+          <h3 class="sub-header widget-title"><%= @widget.name %></h3>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Size</th>
+                  <th>Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+			<% @items.each do |item| %>
+				<tr>
+					<% if item[:link] == "is_dir" %>
+						<td><span class="<%= item[:icon] %>"></span><%= item[:name] %></td>
+					<% else %>
+						<td>
+							<span class="<%= item[:icon] %>"></span>
+							<a href='<%= item[:link] %>' target='_new'><%= item[:name] %></a>
+						</td>
+					<% end %>
+					<td><%= number_to_human_size(item[:size].to_i, precision: 2) %></td>
+					<td><%= DateTime.parse(item[:updated].to_s).to_s(:short)%></td>
+				</tr>
+			<% end%>
+          </tbody>
+        </table>
+<% when "communication" %>
+    <div class="col-sm-12 col-md-12 col-lg-4 widget-container">
+    <div class="widget email-widget">
+    <h3 class="sub-header widget-title">Email</h3>
+	<div class="widget-content">
+	<ul>
+		<% @items.each do |item| %>
+			<li class="unread">
+			<div class="line1">
+			<span class="icon unread-yes"></span>
+				<span class="sender"><%= item.from[0].name %></span>
+				<span class="subject"><%= item.subject[0..59] %>
+				<% if item.subject.length > 60 %>
+				...
+				<% end %>
+				</span>
+				<span class="timestamp"><%= item.date%></span>
+                <div class="clear"></div>
+                </div>
+                <div class="line2">
+                    <span class="icon attachment-yes"></span>
+                    <span class="icon source gmail"></span>
+                    <span class="message">Fake text for now.</span>
+                    <div class="clear"></div>
+                </div>
+			</li>
+		<% end %>
+	</table>
+<% when "email" %>
+	
+    <div class="widget-content">
+		<ul>
+			<% @items.each do |item| %>
+				<% @item = JSON.parse item.body%>
+				<% headers = @item['payload']['headers']%>
+				<% from_name = headers.select {|header| header["name"] == "From"}%>
+				<% subject = headers.select {|header| header["name"] == "Subject"}%>
+				<% rec_date = headers.select {|header| header["name"] == "Date"} %>
+				<% if subject.length > 0 %>
+					<li class="unread"><a href="https://mail.google.com/mail/u/0/#inbox/<%= @item['id']%>" target="_blank">
+						<div class="line1">
+							<span class="icon unread-yes"></span>
+							<% if from_name.length > 0 %>
+								<span class="sender"><%= from_name[0]['value'] %></span>
+							<% end %>
+							<% if rec_date.length > 0 %>
+								<span class="timestamp"><%= rec_date[0]['value']%></span>
+							<% end %>
+		                	<div class="clear"></div>
+		                </div>
+		                <div class="line2">
+		                    <span class="icon attachment-yes"></span>
+		                    <span class="icon source gmail"></span>
+							<span class="subject"><%= subject[0]['value'] %>
+							</span>
+		                    <div class="clear"></div>
+		                </div>
+					</a></li>
+				<% end %>
+			<% end %>
+		</ul>
+	</div>
+<% when "calendar"%>
+	<h3>Events</h3>
+	<table>
+		<tr>
+			<th>Title</th>
+			<th>Creator</th>
+			<th>Date</th>
+		</tr>
+	<% @items.each do |item| %>
+		<tr>
+			<th><a href='<%= item.htmlLink%>'><%= item.summary %></a></th>
+			<th><%= item.creator['displayName']%></th>
+			<th><%= item.start['dateTime']%></th>
+		</tr>
+	<% end %>
+	</table>
+<% when "contact"%>
+	<%= @items.inspect%>
+<% else %>
+<% end %>

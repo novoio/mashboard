@@ -1,0 +1,30 @@
+<div class="col-lg-7 widget" style="margin: 30px auto; float: none; ">
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Email</th>
+			<th>UID</th>
+			<th>Provider</th>
+			<th>OAuth Expires</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><%= @user.name%></td>
+			<td><%= @user.email%></td>
+			<td><%= @user.uid %></td>
+			<td><%= @user.provider %></td>
+			<td><%= @user.oauth_expires_at %></td>
+		</tr>
+	</tbody>
+</table>
+<p>
+	<ul class="nav nav-pills" >
+		<li><%= link_to "View Sources", "/sources"%></li>
+		<li><%= link_to "Add Source", "/sources/new"%></li>
+		<li><%= link_to "View Widgets", "/widgets"%></li>
+		<li><%= link_to "Add Widget", "/widgets/new"%></li>
+	</ul>
+</p>
+</div>

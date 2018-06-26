@@ -1,0 +1,10 @@
+<div class="button-container">
+	<% if current_user %>
+		You have already signed in.
+	<% else %>
+	<button class="btn btn-embossed btn-primary">
+		<%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
+	</button>
+
+	<% end%>
+</div>

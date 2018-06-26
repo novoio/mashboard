@@ -1,0 +1,24 @@
+<h1></h1>
+<p>Create your widget:</p>
+
+<p>
+<%= link_to "Add Source", "/source/new"%>
+<%= form_for :widget, url: widgets_path  do |f| %>
+		<div id="widget-name">
+			<small><%= f.label :Widget %></small>
+			<input id="name" name="widget[name]" type="text" placeholder="Files" class="form-control input-hg" />
+		</div>
+
+		<br>
+	    <%= f.select :widget_type, [['Email','email'],['Files','files'],['Contact','contact'],['Calendar','calendar'],['Notes','notes']] %>
+		<br>
+
+		<%= f.label :Source %><br>
+	    <%= f.collection_select :source, Source.order(:provider), :id, :provider %><br>
+
+	<p>
+		<%= f.submit %>
+	</p>
+<% end %>
+
+</p>

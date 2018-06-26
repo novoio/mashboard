@@ -1,0 +1,1 @@
+Date::DATE_FORMATS[:mash_default] = '%B %D, %Y'

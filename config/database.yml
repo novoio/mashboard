@@ -1,0 +1,31 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  database: mashboard
+  host: localhost
+  port: 5432
+  username: david
+  password:
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: mashboard
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  database: mashboard
+  host: <%= ENV['POSTGRESQL-06409641_PORT_5432_TCP_ADDR'] %>
+  port: <%= ENV['POSTGRESQL-06409641_PORT_5432_TCP_PORT'] %>
+  username: <%= ENV['POSTGRESQL-06409641_ENV_POSTGRESS_USER'] %>
+  password: <%= ENV['POSTGRESQL-06409641_ENV_POSTGRES_PASS'] %>

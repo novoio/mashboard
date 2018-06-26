@@ -1,0 +1,24 @@
+<h1>Users List</h1>
+<table class="table table-striped table-hover">
+	<tr>
+		<th>ID</th>
+		<th>Name</th>
+		<th>Email</th>
+		<th>UID</th>
+		<th>Provider</th>
+		<th>OAuth Expires</th>
+		<th>Refresh Token</th>
+	</tr>
+
+	<% @users.each do |user| %>
+		<tr>
+			<td><%= user.id %></td>
+			<td><a href='user/<%= user.id %>'><%= user.name %></a></td>
+			<td><%= user.email %></td>
+			<td><%= user.uid %></td>
+			<td><%= user.provider %></td>
+			<td><%= user.oauth_expires_at.in_time_zone(@zone).to_s(:short) %></td>
+			<td><%= user.refresh_token %></td>
+		</tr>
+	<% end %>
+</table>

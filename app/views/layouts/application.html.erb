@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+
+
+  <link rel="shortcut icon" href="favicon.ico">
+
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+  <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+<%= yield %>
+
+
+
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+    <script>
+      //  Moved the pseudo class to here for case insensitive searching.  jQuery overrides if it is in the boards.js file.
+      jQuery.expr[":"].contains = jQuery.expr.createPseudo(function(arg) {
+          return function( elem ) { 
+              return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+          };
+      });
+
+      // MATT'S JS
+      function widgetResize() {
+
+        $( ".widget" ).resizable(
+          {
+            handles: 'n,s,se,sw,ne,nw',
+            distance: 30,
+            grid: 20,
+            minHeight: 150,
+            minWidth: getWidth(),
+            maxWidth: getWidth()
+          }
+        );
+      }
+
+      function widgetDrag() {
+
+
+        $('.main').height(theHeight);
+
+        $( ".widget" ).draggable(
+          {
+            containment: ".main",
+            scroll: false,
+            grid: [20,20],
+            stack: ".widget",
+            distance: 30,
+            handle: "h3"
+
+          }
+        );
+        var originalWindowWidth=$(window).width();
+        $('.main').height()-800;
+      }
+
+      function getWidth() { return $(".widget").width(); }
+
+      $(".widget").data({
+    'originalLeft': $(".widget").css('left'),
+    'origionalTop': $(".widget").css('top')
+      });
+
+      function resetPosition() {
+
+        $(".widget").css({
+          'left': $(".widget").data('originalLeft'),
+          'top': $(".widget").data('origionalTop')
+      });
+      var originalWindowWidth=$(window).width();
+      }
+
+$(".reset").click(function() { resetPosition() });
+var theHeight = $(window).height();
+var originalWindowWidth=$(window).width();
+
+$( document ).ready(function() {
+ widgetDrag(); widgetResize();
+
+});
+
+
+$(window).resize(function() {
+
+  if (($(window).width()) != (originalWindowWidth)) { resetPosition(); getWidth(); }  });
+
+
+    </script>
+
+</body>
+</html>

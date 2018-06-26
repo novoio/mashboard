@@ -1,0 +1,100 @@
+<div ng-app='mashboard'>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<img src="/images/mashboard-logo.png" alt="Mashboard" id="mashboard-logo" />
+			<span class="sr-only">Toggle navigation</span>
+			</button>
+		</div>
+		<div class="navbar-collapse collapse">
+			<form class="navbar-form search" action="<%=board_path%>/search" role="search" method="post">
+		        <div style="display:none">
+		          <input name="authenticity_token" type="hidden" value="<%=session[:_csrf_token]%>">
+		        </div>
+		        <div class="form-group">
+		          <div class="input-group">
+		            <input class="form-control" id="searchText" name="searchText" type="text" placeholder="Search" >
+		            <span class="input-group-btn">
+		              <button type="button" class="btn" onclick="javascript:searchWidgets();"><span class="fui-search"></span></button>
+		            </span>
+		          </div>
+		        </div>
+		    </form>
+			<div id="top-right">
+				<button type="button" class="btn btn-sm white-square" aria-label="Add Widget" data-toggle="modal" data-target=".board_add_widget-sm">
+				  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<div class="container-fluid">
+	<div class="row">
+
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+			<% @boards_list.each do |list_board|%>
+				<% if list_board.id.to_i == params[:id].to_i%>
+            		<li class="active"><a href="<%= list_board.id%>">
+						<span class="icon mashboard-selected"></span><%= list_board.name%></a>
+						<button class="btn btn-edit-nav" data-toggle="modal" data-target=".board_add_widget-sm">Edit</button>
+					</li>
+				<% else %>
+            		<li><a href="<%= list_board.id%>"><span class="icon mashboard"></span><%= list_board.name%></a></li>
+          		<% end %>
+			<% end %>
+		  </ul>
+			<div id="account-dropdown" style=" " class="clearfix" >
+				<% if current_user %>
+					<img src="http://lorempixel.com/32/32/people/" class="pull-left" />
+					<strong><%= @current_user.name %></strong>
+					<small class="blue"><%= @current_user.email %></small>
+				<% else %>
+					<% if request.env['PATH_INFO'] != "/users/new"%>
+							<%= link_to "Login to Mashboard", "/users/new", id: "sign_in" %>
+						<% end %>
+				<% end %>
+			</div>
+        </div>
+
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+		<% @widgets.each do |widget|%>
+			<%= render :partial => "widgets/widgets", :object => widget %>
+		<% end %>
+
+		</div>
+	</div>
+</div>
+
+<div class="modal fade board_add_widget-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="false">
+  	<div class="modal-dialog modal-sm">
+    	<div class="modal-content">
+		    <div class="modal-header">
+		           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		           <h4 class="modal-title" id="myModalLabel">Add Widget</h4>
+	        </div>
+			<div class="modal-body">
+				<%= form_for :widget, url: widgets_path  do |f| %>
+					<div id="widget-name">
+						<small><%= f.label :Name, "Widget Name"%></small>
+						<%= f.text_field :name, :class=>"form-control input-hg"%><br>
+					</div>
+					<div class="dropdown margin-top">
+						<small><%= f.label :Type, "Widget Type" %></small><br>
+						<%= f.select :widget_type, @types_of_widgets %><br>
+					</div>
+					<div class="dropdown margin-top">
+						<small><%= f.label :Source, "Initial Source" %></small><br>
+						<%= f.collection_select :source, @user_sources, :id, :provider %><br>
+					</div>
+					<%= hidden_field_tag(:board, params[:id]) %>
+					<%= f.submit("Add Widget", :class=>"btn btn-hg btn-primary margin-top-40") %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="#" class="reset"></a>
+</div>
